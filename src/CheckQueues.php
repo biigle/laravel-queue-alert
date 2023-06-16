@@ -11,18 +11,26 @@ use Illuminate\Support\Facades\Notification;
 class CheckQueues
 {
    /**
-     * The queue manager instance.
-     *
-     * @var QueueFactory
-     */
-    protected $queue;
+    * The queue manager instance.
+    *
+    * @var QueueFactory
+    */
+   protected $queue;
 
-    /**
-     * The cache manager instance.
-     *
-     * @var CacheFactory
-     */
-    protected $cache;
+   /**
+    * The cache manager instance.
+    *
+    * @var CacheFactory
+    */
+   protected $cache;
+
+   /**
+    * Get the cache key for the stored time of the last alert for a queue and connection.
+    */
+   public static function getLastReportCacheKey(array $config): string
+   {
+      return "queue-alert-last-report-{$config['connection']}-{$config['queue']}";
+   }
 
    /**
     * Create a new instance.
@@ -54,20 +62,18 @@ class CheckQueues
       $connection = $config['connection'] ?: config('queue.default');
       $size = $this->queue->connection($connection)->size($config['queue']);
       if ($size > $config['max_jobs']) {
-         // if ($config['report_every_minutes'] > 1) {
-         //    $lastReport = $this->cache->get("")
-         // }
+         $everyMinutes = $config['report_every_minutes'];
+         if ($everyMinutes > 1) {
+            $lastReport = $this->cache->get(static::getLastReportCacheKey($config));
+
+            if (!is_null($lastReport) && Carbon::now()->subMinutes($everyMinutes) < Carbon::parse($lastReport)) {
+               return;
+            }
+         }
+
+         $this->cache->put(static::getLastReportCacheKey($config), Carbon::now());
          Notification::route('mail', config('queue-alert.email'))
             ->notify(new Alert($connection, $config['queue'], $size));
       }
    }
-
-   /**
-    * Get the cache key for the stored time of the last alert for a queue and connection.
-    */
-   protected function getLastReportCacheKey(array $config): string
-   {
-      return "queue-alert-last-report-{$config['connection']}-{$config['queue']}";
-   }
-
 }
