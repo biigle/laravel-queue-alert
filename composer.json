@@ -1,0 +1,43 @@
+{
+    "name": "biigle/laravel-queue-alert",
+    "description": "A package to send alert emails if a Laravel queue is very busy",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Zurowietz",
+            "email": "martin@cebitec.uni-bielefeld.de"
+        }
+    ],
+    "require": {
+        "illuminate/console": "^9.0",
+        "illuminate/cache": "^9.0",
+        "illuminate/queue": "^9.0",
+        "illuminate/support": "^9.0",
+        "nesbot/carbon": "^2.67"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "laravel/laravel": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Biigle\\QueueAlert\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Biigle\\QueueAlert\\Tests\\": "tests/"
+        },
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Biigle\\QueueAlert\\QueueAlertServiceProvider"
+            ]
+        }
+    }
+}
