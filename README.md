@@ -16,7 +16,11 @@ Set the `QUEUE_ALERT_EMAIL` variable in your `.env` file. By default, this packa
 
 ## Configuration
 
-Run `php artisan vendor:publish --tag=config --provider=\\Biigle\\QueueAlert\\QueueAlertServiceProvider` to publish the configuration.
+Run the following command to publish the configuration:
+
+```
+php artisan vendor:publish --tag=config --provider=\\Biigle\\QueueAlert\\QueueAlertServiceProvider
+```
 
 ### Multiple queues and connections
 
