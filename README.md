@@ -2,6 +2,8 @@
 
 A package to send alert emails if a Laravel queue is very busy.
 
+[![Tests](https://github.com/biigle/laravel-queue-alert/actions/workflows/tests.yml/badge.svg)](https://github.com/biigle/laravel-queue-alert/actions/workflows/tests.yml)
+
 ## Installation
 
 ```
