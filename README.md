@@ -7,12 +7,12 @@ A package to send alert emails if a Laravel queue is very busy.
 ## Installation
 
 ```
-composer require biigle/laravel-cached-openstack
+composer require biigle/laravel-queue-alert
 ```
 
 ## Usage
 
-Set the `QUEUE_ALERT_EMAIL` variable in your `.env` file. By default, this package will send one alert email every hour when the `default` queue of the default connection exceeds 1000 jobs.
+Set the `QUEUE_ALERT_EMAIL` variable in your `.env` file to the email address that should receive the alerts. By default, this package will send one alert email every hour when the `default` queue of the default connection exceeds 1000 jobs.
 
 ## Configuration
 
