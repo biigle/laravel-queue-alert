@@ -63,7 +63,7 @@ class CheckQueuesTest extends TestCase
         }
         $check = new CheckQueues($fake, app()->make(CacheFactory::class));
         $check();
-        Notification::assertTimesSent(1, Alert::class);
+        Notification::assertSentTimes(Alert::class, 1);
     }
 
     public function testSendAlertConnection()
@@ -77,7 +77,7 @@ class CheckQueuesTest extends TestCase
         }
         $check = new CheckQueues($fake, app()->make(CacheFactory::class));
         $check();
-        Notification::assertTimesSent(1, Alert::class);
+        Notification::assertSentTimes(Alert::class, 1);
     }
 
     public function testSendAlertQueueOk()
@@ -105,7 +105,7 @@ class CheckQueuesTest extends TestCase
         }
         $check = new CheckQueues($fake, app()->make(CacheFactory::class));
         $check();
-        Notification::assertTimesSent(1, Alert::class);
+        Notification::assertSentTimes(Alert::class, 1);
     }
 
     public function testSendAlertEveryMinutes()
@@ -123,10 +123,10 @@ class CheckQueuesTest extends TestCase
         $check = new CheckQueues($fake, app()->make(CacheFactory::class));
         $check();
         $check();
-        Notification::assertTimesSent(1, Alert::class);
+        Notification::assertSentTimes(Alert::class, 1);
         Cache::put(CheckQueues::getLastReportCacheKey($config), Carbon::now()->subMinutes(2));
         $check();
-        Notification::assertTimesSent(2, Alert::class);
+        Notification::assertSentTimes(Alert::class, 2);
     }
 
     public function testSendAlertWaitMinutes()
@@ -143,11 +143,11 @@ class CheckQueuesTest extends TestCase
         }
         $check = new CheckQueues($fake, app()->make(CacheFactory::class));
         $check();
-        Notification::assertTimesSent(0, Alert::class);
+        Notification::assertSentTimes(Alert::class, 0);
         Cache::put(CheckQueues::getFirstAlertCacheKey($config), Carbon::now()->subMinutes(2));
         $check();
         $check();
-        Notification::assertTimesSent(2, Alert::class);
+        Notification::assertSentTimes(Alert::class, 2);
     }
 
     public function testSendAlertEveryMinutesWaitMinutesDisabled()
@@ -164,7 +164,7 @@ class CheckQueuesTest extends TestCase
         $check = new CheckQueues($fake, app()->make(CacheFactory::class));
         $check();
         $check();
-        Notification::assertTimesSent(2, Alert::class);
+        Notification::assertSentTimes(Alert::class, 2);
     }
 }
 
