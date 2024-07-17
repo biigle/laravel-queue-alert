@@ -10,7 +10,8 @@ class QueueAlertServiceProviderTest extends TestCase
     public function testScheduledCommand()
     {
         $schedule = $this->app[Schedule::class];
-        $event = $schedule->events()[0];
+        $events = $schedule->events();
+        $event = last($events);
         $this->assertEquals('check-queue-alert', $event->description);
     }
 }
